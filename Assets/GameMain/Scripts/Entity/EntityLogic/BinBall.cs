@@ -42,7 +42,6 @@ namespace BinBall
         protected override void OnInit(object userData)
         {
             base.OnInit(userData);
-            m_Collider = GetComponent<SphereCollider>();
             m_Rigidbody = GetComponent<Rigidbody>();
         }
 
