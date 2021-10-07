@@ -40,6 +40,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Bg_City
+    uniqueID: 2066574471
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
