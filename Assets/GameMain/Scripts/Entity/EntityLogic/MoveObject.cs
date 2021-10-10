@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace BinBall
+namespace InterCity
 {
     /// <summary>
     /// 可移动的实体类。

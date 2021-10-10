@@ -9,7 +9,7 @@ using GameFramework.Event;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace BinBall
+namespace InterCity
 {
     public class ProcedureMenu : ProcedureBase
     {
@@ -59,7 +59,7 @@ namespace BinBall
             if (m_StartGame)
             {
                 procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Level"));
-                procedureOwner.SetData<VarByte>("GameMode", (byte)GameMode.Show);
+                procedureOwner.SetData<VarByte>("GameMode", (byte)GameMode.Play);
                 ChangeState<ProcedureChangeScene>(procedureOwner);
             }
         }

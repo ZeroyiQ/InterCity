@@ -16,7 +16,7 @@ using System.IO;
 using System.Reflection;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public class NetworkChannelHelper : INetworkChannelHelper
     {

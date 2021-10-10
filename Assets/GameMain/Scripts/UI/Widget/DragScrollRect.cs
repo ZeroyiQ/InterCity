@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace BinBall
+namespace InterCity
 {
     public class DragScrollRect : ScrollRect, IPointerExitHandler
     {

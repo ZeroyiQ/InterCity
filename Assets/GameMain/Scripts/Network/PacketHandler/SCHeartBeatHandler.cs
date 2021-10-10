@@ -8,7 +8,7 @@
 using GameFramework.Network;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public class SCHeartBeatHandler : PacketHandlerBase
     {

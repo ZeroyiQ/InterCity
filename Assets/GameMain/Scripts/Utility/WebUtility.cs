@@ -7,7 +7,7 @@
 
 using System;
 
-namespace BinBall
+namespace InterCity
 {
     public static class WebUtility
     {

@@ -9,7 +9,7 @@ using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public abstract class Entity : EntityLogic
     {

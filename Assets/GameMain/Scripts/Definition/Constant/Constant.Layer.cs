@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace BinBall
+namespace InterCity
 {
     public static partial class Constant
     {

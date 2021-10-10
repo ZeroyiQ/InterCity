@@ -10,7 +10,7 @@ using GameFramework.Localization;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public class ChangeLanguageDebuggerWindow : IDebuggerWindow
     {

@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace BinBall
+namespace InterCity
 {
     public class ProcedurePreload : ProcedureBase
     {
@@ -22,7 +22,7 @@ namespace BinBall
             // "Aircraft",
             // "Armor",
             // "Asteroid",
-            "Binball",
+            "Player",
             "Entity",
             "Music",
             "Scene",

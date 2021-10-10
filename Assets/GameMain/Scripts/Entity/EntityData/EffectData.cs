@@ -8,7 +8,7 @@
 using System;
 using UnityEngine;
 
-namespace BinBall
+namespace InterCity
 {
     [Serializable]
     public class EffectData : EntityData

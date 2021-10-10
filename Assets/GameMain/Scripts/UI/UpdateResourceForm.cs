@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace BinBall
+namespace InterCity
 {
     public class UpdateResourceForm : MonoBehaviour
     {

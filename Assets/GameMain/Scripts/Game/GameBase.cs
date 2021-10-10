@@ -9,7 +9,7 @@ using GameFramework.Event;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public abstract class GameBase
     {

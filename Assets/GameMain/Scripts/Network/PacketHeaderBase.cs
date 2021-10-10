@@ -8,7 +8,7 @@
 using GameFramework;
 using GameFramework.Network;
 
-namespace BinBall
+namespace InterCity
 {
     public abstract class PacketHeaderBase : IPacketHeader, IReference
     {

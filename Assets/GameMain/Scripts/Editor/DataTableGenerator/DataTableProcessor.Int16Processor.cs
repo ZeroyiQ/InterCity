@@ -7,7 +7,7 @@
 
 using System.IO;
 
-namespace BinBall.Editor.DataTableTools
+namespace InterCity.Editor.DataTableTools
 {
     public sealed partial class DataTableProcessor
     {

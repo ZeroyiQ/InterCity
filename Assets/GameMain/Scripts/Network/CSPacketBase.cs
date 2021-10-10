@@ -5,7 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-namespace BinBall
+namespace InterCity
 {
     public abstract class CSPacketBase : PacketBase
     {

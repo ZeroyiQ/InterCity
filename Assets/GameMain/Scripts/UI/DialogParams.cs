@@ -7,7 +7,7 @@
 
 using GameFramework;
 
-namespace BinBall
+namespace InterCity
 {
     /// <summary>
     /// 对话框显示数据。

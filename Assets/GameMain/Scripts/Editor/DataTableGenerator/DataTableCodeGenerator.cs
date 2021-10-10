@@ -7,7 +7,7 @@
 
 using System.Text;
 
-namespace BinBall.Editor.DataTableTools
+namespace InterCity.Editor.DataTableTools
 {
     public delegate void DataTableCodeGenerator(DataTableProcessor dataTableProcessor, StringBuilder codeContent, object userData);
 }

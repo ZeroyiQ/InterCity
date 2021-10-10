@@ -5,7 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-namespace BinBall
+namespace InterCity
 {
     public abstract class ProcedureBase : GameFramework.Procedure.ProcedureBase
     {

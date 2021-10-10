@@ -9,7 +9,7 @@ using GameFramework;
 using UnityEditor;
 using UnityEngine;
 
-namespace BinBall.Editor.DataTableTools
+namespace InterCity.Editor.DataTableTools
 {
     public sealed class DataTableGeneratorMenu
     {

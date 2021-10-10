@@ -3,7 +3,7 @@
 // Copyright © 2013-2021 Jiang Yin. All rights reserved.
 //------------------------------------------------------------
 // 此文件由工具自动生成，请勿直接修改。
-// 生成时间：2021-08-25 18:06:38.220
+// 生成时间：2021-10-08 21:05:02.300
 //------------------------------------------------------------
 
 using GameFramework;
@@ -14,11 +14,11 @@ using System.Text;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     /// <summary>
-    /// 球类表。
     /// </summary>
+    /// 球类表。
     public class DRBinball : DataRowBase
     {
         private int m_Id = 0;

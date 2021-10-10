@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace BinBall
+namespace InterCity
 {
     /// <summary>
     /// 游戏入口。

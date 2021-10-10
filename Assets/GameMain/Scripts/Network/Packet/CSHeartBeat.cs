@@ -8,7 +8,7 @@
 using ProtoBuf;
 using System;
 
-namespace BinBall
+namespace InterCity
 {
     [Serializable, ProtoContract(Name = @"CSHeartBeat")]
     public class CSHeartBeat : CSPacketBase

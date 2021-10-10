@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public class OperationUI : MonoBehaviour
     {

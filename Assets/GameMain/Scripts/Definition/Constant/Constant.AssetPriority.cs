@@ -5,7 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-namespace BinBall
+namespace InterCity
 {
     public static partial class Constant
     {
@@ -25,7 +25,7 @@ namespace BinBall
             public const int UISoundAsset = 30;
 
             public const int MyAircraftAsset = 90;
-            public const int BinBall = 90;
+            public const int Player = 90;
             public const int Builder = 80;
             public const int ThrusterAsset = 30;
             public const int WeaponAsset = 30;

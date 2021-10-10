@@ -8,7 +8,7 @@
 using GameFramework.Network;
 using ProtoBuf;
 
-namespace BinBall
+namespace InterCity
 {
     public abstract class PacketBase : Packet, IExtensible
     {

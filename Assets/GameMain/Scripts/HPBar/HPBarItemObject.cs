@@ -9,7 +9,7 @@ using GameFramework;
 using GameFramework.ObjectPool;
 using UnityEngine;
 
-namespace BinBall
+namespace InterCity
 {
     public class HPBarItemObject : ObjectBase
     {

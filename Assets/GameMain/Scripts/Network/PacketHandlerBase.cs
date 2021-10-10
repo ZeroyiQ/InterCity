@@ -7,7 +7,7 @@
 
 using GameFramework.Network;
 
-namespace BinBall
+namespace InterCity
 {
     public abstract class PacketHandlerBase : IPacketHandler
     {

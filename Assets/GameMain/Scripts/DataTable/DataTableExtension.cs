@@ -10,11 +10,11 @@ using System;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public static class DataTableExtension
     {
-        private const string DataRowClassPrefixName = "BinBall.DR";
+        private const string DataRowClassPrefixName = "InterCity.DR";
         internal static readonly char[] DataSplitSeparators = new char[] { '\t' };
         internal static readonly char[] DataTrimSeparators = new char[] { '\"' };
 

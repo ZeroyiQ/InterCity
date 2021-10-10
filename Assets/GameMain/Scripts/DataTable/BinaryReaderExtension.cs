@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using UnityEngine;
 
-namespace BinBall
+namespace InterCity
 {
     public static class BinaryReaderExtension
     {

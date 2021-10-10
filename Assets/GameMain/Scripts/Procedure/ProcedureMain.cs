@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace BinBall
+namespace InterCity
 {
     public class ProcedureMain : ProcedureBase
     {
@@ -67,9 +67,10 @@ namespace BinBall
         {
             base.OnInit(procedureOwner);
 
-            // m_Games.Add(GameMode.Survival, new SurvivalGame());
-            m_Games.Add(GameMode.Build, new BuildGame());
-            m_Games.Add(GameMode.Show, new ShowGame());
+#if GAME_EDITOR
+            m_Games.Add(GameMode.Edit, new EditGame());
+#endif
+            m_Games.Add(GameMode.Play, new PlayGame());
         }
 
         protected override void OnDestroy(ProcedureOwner procedureOwner)
@@ -81,14 +82,13 @@ namespace BinBall
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
-            CalculateLimtArea();
             GameEntry.Event.Subscribe(OpenUIFormSuccessEventArgs.EventId, OnOpenMainUI);
             GameEntry.Event.Subscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
             m_ChangeScene = 0;
             m_Ready = false;
             m_OpenDialog = false;
             m_GameOverDelayedSeconds = BACK_TO_MENU_DELAY;
-            InitBinBall();
+            InitPlayer();
         }
 
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
@@ -122,9 +122,9 @@ namespace BinBall
                 if (!m_CurrentGame.GameOver)
                 {
                     m_CurrentGame.Update(elapseSeconds, realElapseSeconds);
-                    if (m_CurrentGame.GameMode == GameMode.Show)
+                    if (m_CurrentGame.GameMode == GameMode.Play)
                     {
-                        m_MainForm.SetScoreText(((ShowGame)m_CurrentGame).Score);
+                        m_MainForm.SetScoreText(((PlayGame)m_CurrentGame).Score);
                     }
                     return;
                 }
@@ -169,7 +169,7 @@ namespace BinBall
             }
 
             m_MainForm = (MainForm)ne.UIForm.Logic;
-            SetGameMode(GameMode.Build);
+            SetGameMode(GameMode.Edit);
             m_Ready = true;
         }
 
@@ -198,7 +198,7 @@ namespace BinBall
 
         #region Init
 
-        private void InitBinBall()
+        private void InitPlayer()
         {
             m_Id = GameEntry.Entity.GenerateSerialId();
             GameEntry.Entity.ShowBinBall(new BinballData(m_Id, 70003)
@@ -222,7 +222,7 @@ namespace BinBall
                     Mode = 2,
                     Title = GameEntry.Localization.GetString("LevelResult.Title"),
 
-                    Message = GameEntry.Localization.GetString("LevelResult.Message", ((ShowGame)m_CurrentGame).Score.ToString("F2")),
+                    Message = GameEntry.Localization.GetString("LevelResult.Message", ((PlayGame)m_CurrentGame).Score.ToString("F2")),
                     ConfirmText = GameEntry.Localization.GetString("Dialog.ConfirmButton"),
                     OnClickConfirm = OnEnterToNext,
                     CancelText = GameEntry.Localization.GetString("LevelResult.Retry"),
@@ -231,28 +231,18 @@ namespace BinBall
             }
         }
 
-        private void CalculateLimtArea()
-        {
-            Vector4 padding = new Vector4(-.6f, 3f, 0.6f, -3f);
-            Vector3 limitLeftUp = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(-Camera.main.transform.position.z)));
-            Vector3 limitRightDown = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Mathf.Abs(-Camera.main.transform.position.z)));
-
-            LimitArea = new Vector4(limitLeftUp.x, limitRightDown.y, limitRightDown.x, limitLeftUp.y) - padding;
-            Log.Error($"LimitArea:{LimitArea.ToString()}");
-        }
-
         #endregion private
 
         #region public
 
         public bool IsBuildMode()
         {
-            return m_CurrentGame != null && m_CurrentGame.GameMode == GameMode.Build;
+            return m_CurrentGame != null && m_CurrentGame.GameMode == GameMode.Edit;
         }
 
         public bool IsShowMode()
         {
-            return m_CurrentGame != null && m_CurrentGame.GameMode == GameMode.Show;
+            return m_CurrentGame != null && m_CurrentGame.GameMode == GameMode.Play;
         }
 
         public void ShowAddScoreTip(string message)
@@ -265,13 +255,17 @@ namespace BinBall
 
         public void SetGameMode(GameMode gameMode)
         {
-            if (m_CurrentGame != null)
+            if (m_Games.TryGetValue(gameMode, out GameBase game))
             {
-                m_CurrentGame.Shutdown();
+                if (m_CurrentGame != null)
+                {
+                    m_CurrentGame.Shutdown();
+                }
+                m_CurrentGame = game;
+                m_CurrentGame.Initialize(m_MyBall);
+                m_MainForm.SetMode(m_CurrentGame.GameMode);
             }
-            m_CurrentGame = m_Games[gameMode];
-            m_CurrentGame.Initialize(m_MyBall);
-            m_MainForm.SetMode(m_CurrentGame.GameMode);
+
         }
 
         public void SetRecycleTextVisual(bool enable)
@@ -281,9 +275,9 @@ namespace BinBall
 
         public void CreateABuilder(BuilderType builder, Vector3 worldPos)
         {
-            if (m_CurrentGame != null && m_CurrentGame.GameMode == GameMode.Build)
+            if (m_CurrentGame != null && m_CurrentGame.GameMode == GameMode.Edit)
             {
-                ((BuildGame)m_CurrentGame).CreateABuilder(builder, worldPos);
+                ((EditGame)m_CurrentGame).CreateABuilder(builder, worldPos);
             }
         }
 

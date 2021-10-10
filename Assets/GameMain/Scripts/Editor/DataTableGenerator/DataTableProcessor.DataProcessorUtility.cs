@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace BinBall.Editor.DataTableTools
+namespace InterCity.Editor.DataTableTools
 {
     public sealed partial class DataTableProcessor
     {

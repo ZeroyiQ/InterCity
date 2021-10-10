@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityGameFramework.Runtime;
-namespace BinBall
+namespace InterCity
 {
     /// <summary>
     /// 可移动的实体类。

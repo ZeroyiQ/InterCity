@@ -5,7 +5,7 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-namespace BinBall.Editor.DataTableTools
+namespace InterCity.Editor.DataTableTools
 {
     public sealed partial class DataTableProcessor
     {

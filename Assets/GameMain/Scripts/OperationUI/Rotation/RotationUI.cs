@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BinBall
+namespace InterCity
 {
     public class RotationUI : OperationUI
     {

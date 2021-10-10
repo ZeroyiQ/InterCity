@@ -7,7 +7,7 @@
 
 using GameFramework;
 
-namespace BinBall
+namespace InterCity
 {
     public static class AssetUtility
     {
@@ -38,7 +38,7 @@ namespace BinBall
 
         public static string GetMusicAsset(string assetName)
         {
-            return Utility.Text.Format("Assets/GameMain/Music/{0}.mp3", assetName);
+            return Utility.Text.Format("Assets/GameMain/Music/{0}", assetName);
         }
 
         public static string GetSoundAsset(string assetName)

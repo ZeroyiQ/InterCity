@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-namespace BinBall
+namespace InterCity
 {
     /// <summary>
     /// 关系类型。

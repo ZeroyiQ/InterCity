@@ -11,7 +11,7 @@ using UnityEngine;
 using UnityGameFramework.Editor;
 using UnityGameFramework.Editor.ResourceTools;
 
-namespace BinBall.Editor
+namespace InterCity.Editor
 {
     public static class GameFrameworkConfigs
     {

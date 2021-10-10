@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
-namespace BinBall.Editor
+namespace InterCity.Editor
 {
     public partial class MyTools
     {

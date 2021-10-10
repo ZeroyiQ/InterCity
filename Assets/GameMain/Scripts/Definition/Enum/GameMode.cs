@@ -1,4 +1,4 @@
-﻿namespace BinBall
+﻿namespace InterCity
 {
     /// <summary>
     /// 游戏模式。
@@ -6,13 +6,13 @@
     public enum GameMode : byte
     {
         /// <summary>
-        /// 建造模式
+        /// 编辑模式
         /// </summary>
-        Build,
+        Edit,
 
         /// <summary>
-        /// 展示模式
+        /// 游玩模式
         /// </summary>
-        Show,
+        Play,
     }
 }

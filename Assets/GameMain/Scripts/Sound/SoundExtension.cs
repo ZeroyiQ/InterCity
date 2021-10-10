@@ -10,7 +10,7 @@ using GameFramework.DataTable;
 using GameFramework.Sound;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public static class SoundExtension
     {

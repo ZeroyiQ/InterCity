@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityGameFramework.Runtime;
-namespace BinBall
+namespace InterCity
 {
 
     public class DragScrollRectCell : MonoBehaviour, IPointerDownHandler

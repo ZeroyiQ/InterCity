@@ -11,7 +11,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityGameFramework.Editor.ResourceTools;
 
-namespace BinBall.Editor
+namespace InterCity.Editor
 {
     public sealed class StarForceBuildEventHandler : IBuildEventHandler
     {

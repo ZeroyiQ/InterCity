@@ -9,7 +9,7 @@ using GameFramework.DataTable;
 using System;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public static class EntityExtension
     {
@@ -42,12 +42,19 @@ namespace BinBall
 
         public static void ShowBinBall(this EntityComponent entityComponent, BinballData data)
         {
-            entityComponent.ShowEntity(typeof(BinBall), "BinBall", Constant.AssetPriority.BinBall, data);
+            entityComponent.ShowEntity(typeof(BinBall), "BinBall", Constant.AssetPriority.Player, data);
         }
+
         public static void ShowBuildCube(this EntityComponent entityComponent, BuilderCubeData data)
         {
             entityComponent.ShowEntity(typeof(BuilderCube), "Builder", Constant.AssetPriority.Builder, data);
         }
+
+        public static void ShowPlayer(this EntityComponent entityComponent, PlayerData data)
+        {
+            entityComponent.ShowEntity(typeof(Player), "Player", Constant.AssetPriority.Player, data);
+        }
+
         private static void ShowEntity(this EntityComponent entityComponent, Type logicType, string entityGroup, int priority, EntityData data)
         {
             if (data == null)

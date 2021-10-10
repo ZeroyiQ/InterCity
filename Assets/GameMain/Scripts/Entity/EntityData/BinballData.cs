@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using GameFramework.DataTable;
 
-namespace BinBall
+namespace InterCity
 {
     [Serializable]
     public class BinballData : EntityData

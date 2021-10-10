@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace BinBall
+namespace InterCity
 {
     public class MainForm : UGuiForm
     {
@@ -43,12 +43,12 @@ namespace BinBall
             RecycleTextVisual(false);
             switch (mode)
             {
-                case GameMode.Build:
+                case GameMode.Edit:
                     m_Build.SetActive(true);
                     m_Show.SetActive(false);
                     break;
 
-                case GameMode.Show:
+                case GameMode.Play:
                     m_Show.SetActive(true);
                     m_Build.SetActive(false);
                     break;
@@ -88,7 +88,7 @@ namespace BinBall
         {
             if (m_Procedure != null)
             {
-                m_Procedure.SetGameMode(GameMode.Show);
+                m_Procedure.SetGameMode(GameMode.Play);
             }
         }
 
@@ -96,7 +96,7 @@ namespace BinBall
         {
             if (m_Procedure != null)
             {
-                m_Procedure.SetGameMode(GameMode.Build);
+                m_Procedure.SetGameMode(GameMode.Edit);
             }
         }
 
