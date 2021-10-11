@@ -27,12 +27,14 @@ namespace InterCity
             get;
             protected set;
         }
-        protected BinBall m_MyBall;
+        protected Player m_MyPlayer;
+        protected MainForm m_MainForm;
 
-        public virtual void Initialize(BinBall ball)
+        public virtual void Initialize(Player player , MainForm form)
         {
-            m_MyBall = ball;
             GameOver = false;
+            m_MyPlayer = player;
+            m_MainForm = form;
         }
 
         public virtual void Shutdown()

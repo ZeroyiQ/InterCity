@@ -84,21 +84,21 @@ namespace InterCity
 
         #endregion Life Cycle
 
-        public void OnClickStart()
-        {
-            if (m_Procedure != null)
-            {
-                m_Procedure.SetGameMode(GameMode.Play);
-            }
-        }
+        //public void OnClickStart()
+        //{
+        //    if (m_Procedure != null)
+        //    {
+        //        m_Procedure.SetGameMode(GameMode.Play);
+        //    }
+        //}
 
-        public void OnClickBackToBuild()
-        {
-            if (m_Procedure != null)
-            {
-                m_Procedure.SetGameMode(GameMode.Edit);
-            }
-        }
+        //public void OnClickBackToBuild()
+        //{
+        //    if (m_Procedure != null)
+        //    {
+        //        m_Procedure.SetGameMode(GameMode.Edit);
+        //    }
+        //}
 
         public void OnClickGoMenu()
         {

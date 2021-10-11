@@ -13,6 +13,14 @@ using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedure
 
 namespace InterCity
 {
+    public enum MainLvState
+    {
+        Ready,      // 准备阶段
+        Playing,    // 演出阶段
+        Pause,      // 暂停
+        Stop        // 停止
+    }
+
     public class ProcedureMain : ProcedureBase
     {
         public override bool UseNativeDialog
@@ -23,9 +31,6 @@ namespace InterCity
             }
         }
 
-        private const float BACK_TO_MENU_DELAY = 2f;
-        private float m_GameOverDelayedSeconds;
-
         private readonly Dictionary<GameMode, GameBase> m_Games = new Dictionary<GameMode, GameBase>();
         private GameBase m_CurrentGame = null;
         private int m_ChangeScene = 0; // 1 ：重试 2：下一关
@@ -33,32 +38,37 @@ namespace InterCity
 
         private MainForm m_MainForm;
         private int m_Id;
-        private BinBall m_MyBall;
-        private bool m_Ready;
-        private bool m_OpenDialog;
+        private Player m_Player;
 
-        public static Vector4 LimitArea = new Vector4(-6, 6, 6, -6);
+        private MainLvState m_State;
+
+        public MainLvState MyProperty
+        {
+            get { return m_State; }
+        }
+
+        private bool m_OpenDialog;
 
         public void GotoMenu(bool isImediate = false)
         {
-            if (isImediate)
-            {
-                m_GameOverDelayedSeconds = -1;
-            }
             if (m_CurrentGame != null)
             {
                 m_CurrentGame.GameOver = true;
             }
             m_ChangeScene = 1;
             m_CurrentGame = null;
+            m_State = MainLvState.Stop;
         }
 
         public void Retry()
         {
-            m_GameOverDelayedSeconds = -1;
-            m_CurrentGame.GameOver = true;
+            if (m_CurrentGame != null)
+            {
+                m_CurrentGame.GameOver = true;
+            }
             m_ChangeScene = 2;
             m_CurrentGame = null;
+            m_State = MainLvState.Stop;
         }
 
         #region Life Cycle
@@ -85,10 +95,9 @@ namespace InterCity
             GameEntry.Event.Subscribe(OpenUIFormSuccessEventArgs.EventId, OnOpenMainUI);
             GameEntry.Event.Subscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
             m_ChangeScene = 0;
-            m_Ready = false;
+            m_State = MainLvState.Ready;
             m_OpenDialog = false;
-            m_GameOverDelayedSeconds = BACK_TO_MENU_DELAY;
-            InitPlayer();
+            LoadToReady();
         }
 
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
@@ -106,43 +115,36 @@ namespace InterCity
                 m_MainForm.Close(true);
                 m_MainForm = null;
             }
-            m_MyBall = null;
+            m_Player = null;
             base.OnLeave(procedureOwner, isShutdown);
         }
 
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
             base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
-            if (!m_Ready)
+            if (m_State != MainLvState.Playing && m_State != MainLvState.Stop)
             {
                 return;
             }
-            if (m_CurrentGame != null)
+            if (m_State == MainLvState.Playing)
             {
-                if (!m_CurrentGame.GameOver)
+                if (m_CurrentGame != null)
                 {
-                    m_CurrentGame.Update(elapseSeconds, realElapseSeconds);
-                    if (m_CurrentGame.GameMode == GameMode.Play)
+                    if (m_CurrentGame.GameOver)
                     {
-                        m_MainForm.SetScoreText(((PlayGame)m_CurrentGame).Score);
+                        TryOpenDialog();
                     }
-                    return;
+                    else
+                    {
+                        m_CurrentGame.Update(elapseSeconds, realElapseSeconds);
+                    }
                 }
-                else if (m_ChangeScene == 0)
+                else
                 {
-                    TryOpenDialog();
-                    return;
+                    m_State = MainLvState.Stop;
                 }
             }
-
-            if (m_ChangeScene == 0)
-            {
-                m_ChangeScene = 2;
-                m_GotoMenuDelaySeconds = 0;
-            }
-            m_GotoMenuDelaySeconds += elapseSeconds;
-
-            if (m_GotoMenuDelaySeconds >= m_GameOverDelayedSeconds)
+            else if (m_State == MainLvState.Stop)
             {
                 if (m_ChangeScene == 1)
                 {
@@ -160,6 +162,17 @@ namespace InterCity
 
         #region Event
 
+        private void OnShowEntitySuccess(object sender, GameEventArgs e)
+        {
+            ShowEntitySuccessEventArgs ne = (ShowEntitySuccessEventArgs)e;
+            if (m_Player != null || ne.Entity.Id != m_Id)
+            {
+                return;
+            }
+            m_Player = (Player)ne.Entity.Logic;
+            GameEntry.UI.OpenUIForm(UIFormId.MainForm, this);
+        }
+
         private void OnOpenMainUI(object sender, GameEventArgs e)
         {
             OpenUIFormSuccessEventArgs ne = (OpenUIFormSuccessEventArgs)e;
@@ -169,19 +182,7 @@ namespace InterCity
             }
 
             m_MainForm = (MainForm)ne.UIForm.Logic;
-            SetGameMode(GameMode.Edit);
-            m_Ready = true;
-        }
-
-        private void OnShowEntitySuccess(object sender, GameEventArgs e)
-        {
-            ShowEntitySuccessEventArgs ne = (ShowEntitySuccessEventArgs)e;
-            if (m_MyBall != null || ne.Entity.Id != m_Id)
-            {
-                return;
-            }
-            m_MyBall = (BinBall)ne.Entity.Logic;
-            GameEntry.UI.OpenUIForm(UIFormId.MainForm, this);
+            SetGameMode(GameMode.Play);
         }
 
         private void OnEnterToNext(object userdata)
@@ -196,10 +197,11 @@ namespace InterCity
 
         #endregion Event
 
-        #region Init
+        #region Ready
 
-        private void InitPlayer()
+        private void LoadToReady()
         {
+            // 加载玩家
             m_Id = GameEntry.Entity.GenerateSerialId();
             GameEntry.Entity.ShowBinBall(new BinballData(m_Id, 70003)
             {
@@ -208,7 +210,7 @@ namespace InterCity
             });
         }
 
-        #endregion Init
+        #endregion Ready
 
         #region private
 
@@ -262,10 +264,10 @@ namespace InterCity
                     m_CurrentGame.Shutdown();
                 }
                 m_CurrentGame = game;
-                m_CurrentGame.Initialize(m_MyBall);
+                m_CurrentGame.Initialize(m_Player, m_MainForm);
                 m_MainForm.SetMode(m_CurrentGame.GameMode);
+                m_State = MainLvState.Playing;
             }
-
         }
 
         public void SetRecycleTextVisual(bool enable)

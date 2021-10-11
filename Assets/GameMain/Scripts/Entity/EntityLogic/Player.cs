@@ -14,6 +14,7 @@ namespace InterCity
         public float HP;
 
         public float Power;
+
         private Animator m_animator;
 
         protected override void OnInit(object userData)
