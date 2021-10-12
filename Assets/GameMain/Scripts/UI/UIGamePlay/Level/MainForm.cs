@@ -39,20 +39,20 @@ namespace InterCity
 
         public void SetMode(GameMode mode)
         {
-            m_Close.SetActive(true);
-            RecycleTextVisual(false);
-            switch (mode)
-            {
-                case GameMode.Edit:
-                    m_Build.SetActive(true);
-                    m_Show.SetActive(false);
-                    break;
+            //m_Close.SetActive(true);
+            //RecycleTextVisual(false);
+            //switch (mode)
+            //{
+            //    case GameMode.Edit:
+            //        m_Build.SetActive(true);
+            //        m_Show.SetActive(false);
+            //        break;
 
-                case GameMode.Play:
-                    m_Show.SetActive(true);
-                    m_Build.SetActive(false);
-                    break;
-            }
+            //    case GameMode.Play:
+            //        m_Show.SetActive(true);
+            //        m_Build.SetActive(false);
+            //        break;
+            //}
         }
 
         #region Life Cycle

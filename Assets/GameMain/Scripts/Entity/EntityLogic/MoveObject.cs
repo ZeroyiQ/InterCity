@@ -16,7 +16,7 @@ namespace InterCity
         private DestoryUI m_DestoryUI;
         protected Vector3 TransformConstraint
         {
-            set { transform.position = ConstraintUtility.GetPositionInLimitArea(value, ProcedureMain.LimitArea, .5f); }
+            set { transform.position = ConstraintUtility.GetPositionInLimitArea(value,Vector4.zero, .5f); }
         }
 
         public void ChangeRoataion(float value)

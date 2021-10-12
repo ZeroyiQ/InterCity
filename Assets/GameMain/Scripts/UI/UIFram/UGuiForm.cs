@@ -18,7 +18,6 @@ namespace InterCity
         public const int DepthFactor = 100;
         private const float FadeTime = 0.3f;
 
-        private static Font s_MainFont = null;
         private Canvas m_CachedCanvas = null;
         private CanvasGroup m_CanvasGroup = null;
         private List<Canvas> m_CachedCanvasContainer = new List<Canvas>();
@@ -61,18 +60,9 @@ namespace InterCity
             GameEntry.Sound.PlayUISound(uiSoundId);
         }
 
-        public static void SetMainFont(Font mainFont)
-        {
-            if (mainFont == null)
-            {
-                Log.Error("Main font is invalid.");
-                return;
-            }
-
-            s_MainFont = mainFont;
-        }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnInit(object userData)
 #else
         protected internal override void OnInit(object userData)
@@ -97,15 +87,29 @@ namespace InterCity
             Text[] texts = GetComponentsInChildren<Text>(true);
             for (int i = 0; i < texts.Length; i++)
             {
-                texts[i].font = s_MainFont;
-                if (!string.IsNullOrEmpty(texts[i].text))
+                LanguageText content = texts[i].GetComponent<LanguageText>();
+                if (content == null)
                 {
-                    texts[i].text = GameEntry.Localization.GetString(texts[i].text);
+                    texts[i].font = GameEntry.Font[FontType.MainFont];
+                    if (!string.IsNullOrEmpty(texts[i].text))
+                    {
+                        texts[i].text = GameEntry.Localization.GetString(texts[i].text);
+                    }
                 }
+                else
+                {
+                    texts[i].font = GameEntry.Font[content.Font];
+                    if (!string.IsNullOrEmpty(content.LanguateKey))
+                    {
+                        texts[i].text = GameEntry.Localization.GetString(content.LanguateKey);
+                    }
+                }
+
             }
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnRecycle()
 #else
         protected internal override void OnRecycle()
@@ -115,6 +119,7 @@ namespace InterCity
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnOpen(object userData)
 #else
         protected internal override void OnOpen(object userData)
@@ -128,6 +133,7 @@ namespace InterCity
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnClose(bool isShutdown, object userData)
 #else
         protected internal override void OnClose(bool isShutdown, object userData)
@@ -137,6 +143,7 @@ namespace InterCity
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnPause()
 #else
         protected internal override void OnPause()
@@ -146,6 +153,7 @@ namespace InterCity
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnResume()
 #else
         protected internal override void OnResume()
@@ -159,6 +167,7 @@ namespace InterCity
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnCover()
 #else
         protected internal override void OnCover()
@@ -168,6 +177,7 @@ namespace InterCity
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnReveal()
 #else
         protected internal override void OnReveal()
@@ -177,6 +187,7 @@ namespace InterCity
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnRefocus(object userData)
 #else
         protected internal override void OnRefocus(object userData)
@@ -186,6 +197,7 @@ namespace InterCity
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
 #else
         protected internal override void OnUpdate(float elapseSeconds, float realElapseSeconds)
@@ -195,6 +207,7 @@ namespace InterCity
         }
 
 #if UNITY_2017_3_OR_NEWER
+
         protected override void OnDepthChanged(int uiGroupDepth, int depthInUIGroup)
 #else
         protected internal override void OnDepthChanged(int uiGroupDepth, int depthInUIGroup)

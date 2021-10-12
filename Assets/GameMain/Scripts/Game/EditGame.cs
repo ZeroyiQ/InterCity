@@ -21,18 +21,17 @@ namespace InterCity
             }
         }
 
-        public override void Initialize(BinBall ball)
+        public override void OnInit()
         {
-            base.Initialize(ball);
-            if (ball != null)
-            {
-                ball.Reset();
-                ball.PauseBall();
-            }
-            else
-            {
-                Log.Error("实例空");
-            }
+            //if (ball != null)
+            //{
+            //    ball.Reset();
+            //    ball.PauseBall();
+            //}
+            //else
+            //{
+            //    Log.Error("实例空");
+            //}
             currentDragEntity = 0;
             GameEntry.Event.Subscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
         }

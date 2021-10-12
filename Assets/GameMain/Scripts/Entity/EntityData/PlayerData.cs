@@ -14,18 +14,21 @@ namespace InterCity
         private float m_Speed = 1;
 
         [SerializeField]
+        private float m_Hp = 5;
+
+        [SerializeField]
         private Vector3 m_StartPostion = Vector3.zero;
 
         public PlayerData(int entityId, int typeId) : base(entityId, typeId)
         {
-            IDataTable<DRPlayer> dtPlayer = GameEntry.DataTable.GetDataTable<DRPlayer>();
-            DRPlayer drBinball = dtPlayer.GetDataRow(typeId);
-            if (drBinball == null)
+            DRPlayer drPlayer = GameEntry.DataTable.GetDataTable<DRPlayer>().GetDataRow(typeId);
+            if (drPlayer == null)
             {
                 return;
             }
-            m_Speed = drBinball.Speed;
-            m_StartPostion = drBinball.StartPostion;
+            m_Speed = drPlayer.Speed;
+            m_StartPostion = drPlayer.StartPostion;
+            m_Hp = drPlayer.Hp;
         }
 
         /// <summary>
@@ -63,6 +66,18 @@ namespace InterCity
             get
             {
                 return m_StartPostion;
+            }
+        }
+
+        /// <summary>
+        /// 血量
+        /// </summary>
+        /// <value></value>
+        public float Hp
+        {
+            get
+            {
+                return m_Hp;
             }
         }
     }

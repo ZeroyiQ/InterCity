@@ -102,7 +102,8 @@ namespace InterCity
             LoadDictionary("Default");
 
             // Preload fonts
-            LoadFont("MainFont");
+            LoadFont(FontType.MainFont);
+            LoadFont(FontType.BitFont);
         }
 
         private void LoadConfig(string configName)
@@ -126,17 +127,17 @@ namespace InterCity
             GameEntry.Localization.ReadData(dictionaryAssetName, this);
         }
 
-        private void LoadFont(string fontName)
+        private void LoadFont(FontType type)
         {
+            string fontName = type.ToString();
             m_LoadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
             GameEntry.Resource.LoadAsset(AssetUtility.GetFontAsset(fontName), Constant.AssetPriority.FontAsset, new LoadAssetCallbacks(
                 (assetName, asset, duration, userData) =>
                 {
                     m_LoadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
-                    UGuiForm.SetMainFont((Font)asset);
+                    GameEntry.Font.SetFont(type, (Font)asset);
                     Log.Info("Load font '{0}' OK.", fontName);
                 },
-
                 (assetName, status, errorMessage, userData) =>
                 {
                     Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName, errorMessage);

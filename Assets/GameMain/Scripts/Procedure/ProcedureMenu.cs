@@ -59,7 +59,6 @@ namespace InterCity
             if (m_StartGame)
             {
                 procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Level"));
-                procedureOwner.SetData<VarByte>("GameMode", (byte)GameMode.Play);
                 ChangeState<ProcedureChangeScene>(procedureOwner);
             }
         }

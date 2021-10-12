@@ -97,7 +97,7 @@ namespace InterCity
             m_ChangeScene = 0;
             m_State = MainLvState.Ready;
             m_OpenDialog = false;
-            LoadToReady();
+            PreLoad();
         }
 
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
@@ -170,6 +170,7 @@ namespace InterCity
                 return;
             }
             m_Player = (Player)ne.Entity.Logic;
+            Utilities.SetObjActive(m_Player.gameObject, false);
             GameEntry.UI.OpenUIForm(UIFormId.MainForm, this);
         }
 
@@ -199,14 +200,12 @@ namespace InterCity
 
         #region Ready
 
-        private void LoadToReady()
+        private void PreLoad()
         {
             // 加载玩家
             m_Id = GameEntry.Entity.GenerateSerialId();
-            GameEntry.Entity.ShowBinBall(new BinballData(m_Id, 70003)
-            {
-                Name = "My BinBall",
-                Position = GameEntry.DataTable.GetDataTable<DRBinball>().GetDataRow(70003).StartPostion
+            GameEntry.Entity.ShowPlayer(new PlayerData(m_Id, 10000) {
+                Name = "Player1",
             });
         }
 

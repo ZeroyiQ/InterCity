@@ -25,11 +25,17 @@ namespace InterCity
             get;
             private set;
         }
+        public static FontComponent Font
+        {
+            get;
+            private set;
+        }
 
         private static void InitCustomComponents()
         {
             BuiltinData = UnityGameFramework.Runtime.GameEntry.GetComponent<BuiltinDataComponent>();
             OperationUI = UnityGameFramework.Runtime.GameEntry.GetComponent<OperationUIComponent>();
+            Font = UnityGameFramework.Runtime.GameEntry.GetComponent<FontComponent>();
         }
     }
 }

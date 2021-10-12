@@ -1,13 +1,8 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
+﻿
 using GameFramework;
 using GameFramework.DataTable;
 using UnityEngine;
+using GameFramework.Event;
 
 namespace InterCity
 {
@@ -25,41 +20,55 @@ namespace InterCity
             get
             {
                 float realScore = m_TimeScore;
-                if (m_MyBall != null)
+                if (m_MyPlayer != null)
                 {
-                    realScore += m_MyBall.Score;
+                    realScore += m_MyPlayer.Score;
                 }
                 return realScore;
             }
         }
         private float m_TimeScore;
 
-        public override void Initialize(BinBall ball)
+        public override void OnInit()
         {
-            base.Initialize(ball);
+            base.OnInit();
             m_TimeScore = 0;
-            if (ball != null)
-            {
-                ball.ResumeBall();
-            }
+            GameEntry.Event.Subscribe(UIInputEventArgs.EventId, OnInput);
         }
 
         public override void Shutdown()
         {
             base.Shutdown();
+            GameEntry.Event.Unsubscribe(UIInputEventArgs.EventId, OnInput);
         }
 
         public override void Update(float elapseSeconds, float realElapseSeconds)
         {
             base.Update(elapseSeconds, realElapseSeconds);
-            m_TimeScore += realElapseSeconds * 0.5f;
-            if (m_MyBall != null)
+            if (m_MyPlayer.HP <= 0)
             {
-                if (!m_MyBall.Visible)
-                {
-                    GameOver = true;
-                }
+                GameOver = true;
+            }
+            if (!GameOver)
+            {
+                m_TimeScore += realElapseSeconds * 0.5f;
+                Getter.PlayerRoot.transform.AddLocalPositionX(elapseSeconds * m_MyPlayer.Speed);
             }
         }
+
+        #region Event
+        private void OnInput(object sender, GameEventArgs e)
+        {
+            UIInputEventArgs inputEvent = e as UIInputEventArgs;
+            if (GameOver)
+            {
+                return;
+            }
+            if (inputEvent.MoveDirection == 1)
+            {
+                m_MyPlayer.PlayAttack();
+            }
+        }
+        #endregion
     }
 }

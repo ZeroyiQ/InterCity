@@ -3,7 +3,7 @@
 // Copyright © 2013-2021 Jiang Yin. All rights reserved.
 //------------------------------------------------------------
 // 此文件由工具自动生成，请勿直接修改。
-// 生成时间：2021-10-10 16:15:04.532
+// 生成时间：2021-10-12 14:06:16.353
 //------------------------------------------------------------
 
 using GameFramework;
@@ -52,6 +52,15 @@ namespace InterCity
             private set;
         }
 
+        /// <summary>
+        /// 获取血量。
+        /// </summary>
+        public float Hp
+        {
+            get;
+            private set;
+        }
+
         public override bool ParseDataRow(string dataRowString, object userData)
         {
             string[] columnStrings = dataRowString.Split(DataTableExtension.DataSplitSeparators);
@@ -66,6 +75,7 @@ namespace InterCity
             index++;
             Speed = float.Parse(columnStrings[index++]);
             StartPostion = DataTableExtension.ParseVector3(columnStrings[index++]);
+            Hp = float.Parse(columnStrings[index++]);
 
             GeneratePropertyArray();
             return true;
@@ -80,6 +90,7 @@ namespace InterCity
                     m_Id = binaryReader.Read7BitEncodedInt32();
                     Speed = binaryReader.ReadSingle();
                     StartPostion = binaryReader.ReadVector3();
+                    Hp = binaryReader.ReadSingle();
                 }
             }
 
