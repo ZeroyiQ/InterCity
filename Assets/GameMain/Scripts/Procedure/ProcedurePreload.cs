@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using GameFramework.Event;
 using GameFramework.Resource;
 using System.Collections.Generic;
@@ -19,18 +12,14 @@ namespace InterCity
     {
         public static readonly string[] DataTableNames = new string[]
         {
-            // "Aircraft",
-            // "Armor",
-            // "Asteroid",
-            "Player",
             "Entity",
+            "Interaction",
             "Music",
+            "Player",
             "Scene",
             "Sound",
-            // "Thruster",
             "UIForm",
             "UISound",
-            // "Weapon",
         };
 
         private Dictionary<string, bool> m_LoadedFlag = new Dictionary<string, bool>();
@@ -83,7 +72,7 @@ namespace InterCity
                 }
             }
 
-            procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Menu"));
+            procedureOwner.SetData<VarInt32>(Constant.Key.SceneId, GameEntry.Config.GetInt("Scene.Menu"));
             ChangeState<ProcedureChangeScene>(procedureOwner);
         }
 
@@ -104,44 +93,18 @@ namespace InterCity
             // Preload fonts
             LoadFont(FontType.MainFont);
             LoadFont(FontType.BitFont);
+
+            LoadLevelInfo();
         }
 
+        #region 加载
+
+        // =================================================全局配置=================================================
         private void LoadConfig(string configName)
         {
             string configAssetName = AssetUtility.GetConfigAsset(configName, false);
             m_LoadedFlag.Add(configAssetName, false);
             GameEntry.Config.ReadData(configAssetName, this);
-        }
-
-        private void LoadDataTable(string dataTableName)
-        {
-            string dataTableAssetName = AssetUtility.GetDataTableAsset(dataTableName, false);
-            m_LoadedFlag.Add(dataTableAssetName, false);
-            GameEntry.DataTable.LoadDataTable(dataTableName, dataTableAssetName, this);
-        }
-
-        private void LoadDictionary(string dictionaryName)
-        {
-            string dictionaryAssetName = AssetUtility.GetDictionaryAsset(dictionaryName, false);
-            m_LoadedFlag.Add(dictionaryAssetName, false);
-            GameEntry.Localization.ReadData(dictionaryAssetName, this);
-        }
-
-        private void LoadFont(FontType type)
-        {
-            string fontName = type.ToString();
-            m_LoadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
-            GameEntry.Resource.LoadAsset(AssetUtility.GetFontAsset(fontName), Constant.AssetPriority.FontAsset, new LoadAssetCallbacks(
-                (assetName, asset, duration, userData) =>
-                {
-                    m_LoadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
-                    GameEntry.Font.SetFont(type, (Font)asset);
-                    Log.Info("Load font '{0}' OK.", fontName);
-                },
-                (assetName, status, errorMessage, userData) =>
-                {
-                    Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName, errorMessage);
-                }));
         }
 
         private void OnLoadConfigSuccess(object sender, GameEventArgs e)
@@ -167,6 +130,14 @@ namespace InterCity
             Log.Error("Can not load config '{0}' from '{1}' with error message '{2}'.", ne.ConfigAssetName, ne.ConfigAssetName, ne.ErrorMessage);
         }
 
+        // =================================================游戏配置=================================================
+        private void LoadDataTable(string dataTableName)
+        {
+            string dataTableAssetName = AssetUtility.GetDataTableAsset(dataTableName, false);
+            m_LoadedFlag.Add(dataTableAssetName, false);
+            GameEntry.DataTable.LoadDataTable(dataTableName, dataTableAssetName, this);
+        }
+
         private void OnLoadDataTableSuccess(object sender, GameEventArgs e)
         {
             LoadDataTableSuccessEventArgs ne = (LoadDataTableSuccessEventArgs)e;
@@ -188,6 +159,14 @@ namespace InterCity
             }
 
             Log.Error("Can not load data table '{0}' from '{1}' with error message '{2}'.", ne.DataTableAssetName, ne.DataTableAssetName, ne.ErrorMessage);
+        }
+
+        // =================================================本地化文本=================================================
+        private void LoadDictionary(string dictionaryName)
+        {
+            string dictionaryAssetName = AssetUtility.GetDictionaryAsset(dictionaryName, false);
+            m_LoadedFlag.Add(dictionaryAssetName, false);
+            GameEntry.Localization.ReadData(dictionaryAssetName, this);
         }
 
         private void OnLoadDictionarySuccess(object sender, GameEventArgs e)
@@ -212,5 +191,43 @@ namespace InterCity
 
             Log.Error("Can not load dictionary '{0}' from '{1}' with error message '{2}'.", ne.DictionaryAssetName, ne.DictionaryAssetName, ne.ErrorMessage);
         }
+
+        // =================================================字体=================================================
+        private void LoadFont(FontType type)
+        {
+            string fontName = type.ToString();
+            m_LoadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
+            GameEntry.Resource.LoadAsset(AssetUtility.GetFontAsset(fontName), Constant.AssetPriority.FontAsset, new LoadAssetCallbacks(
+                (assetName, asset, duration, userData) =>
+                {
+                    m_LoadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
+                    GameEntry.Font.SetFont(type, (Font)asset);
+                    Log.Info("Load font '{0}' OK.", fontName);
+                },
+                (assetName, status, errorMessage, userData) =>
+                {
+                    Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName, errorMessage);
+                }));
+        }
+
+        // =================================================关卡设置=================================================
+
+        private void LoadLevelInfo()
+        {
+            string configAssetName = AssetUtility.GetLevelInfoAsset();
+            m_LoadedFlag.Add(configAssetName, false);
+            GameEntry.Level.InitLevelInfo(configAssetName,
+            () =>
+            {
+                m_LoadedFlag[configAssetName] = true;
+                Log.Info("level Info '{0}' OK.", configAssetName);
+            },
+            (string errorMessage) =>
+            {
+                Log.Error("Can not load level Info '{0}'with error message '{1}'.", configAssetName, errorMessage);
+            });
+        }
+
+        #endregion 加载
     }
 }

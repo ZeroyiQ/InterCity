@@ -35,6 +35,9 @@ namespace InterCity
         private GameBase m_CurrentGame = null;
         private int m_ChangeScene = 0; // 1 ：重试 2：下一关
         private float m_GotoMenuDelaySeconds = 0f;
+        private int m_Bgm = 0;
+        private int m_SceneId = 0;
+        private LevelInfo m_LevelInfo;
 
         private MainForm m_MainForm;
         private int m_Id;
@@ -97,6 +100,9 @@ namespace InterCity
             m_ChangeScene = 0;
             m_State = MainLvState.Ready;
             m_OpenDialog = false;
+            m_Bgm = procedureOwner.GetData<VarInt32>(Constant.Key.SceneBgm);
+            m_SceneId = procedureOwner.GetData<VarInt32>(Constant.Key.SceneId);
+            m_LevelInfo = GameEntry.Level[m_SceneId];
             PreLoad();
         }
 
@@ -148,11 +154,11 @@ namespace InterCity
             {
                 if (m_ChangeScene == 1)
                 {
-                    procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Menu"));
+                    procedureOwner.SetData<VarInt32>(Constant.Key.SceneId, GameEntry.Config.GetInt("Scene.Menu"));
                 }
                 else if (m_ChangeScene == 2)
                 {
-                    procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Level"));
+                    procedureOwner.SetData<VarInt32>(Constant.Key.SceneId, GameEntry.Config.GetInt("Scene.Level"));
                 }
                 ChangeState<ProcedureChangeScene>(procedureOwner);
             }
@@ -207,6 +213,8 @@ namespace InterCity
             GameEntry.Entity.ShowPlayer(new PlayerData(m_Id, 10000) {
                 Name = "Player1",
             });
+
+            // 加载操作节点
         }
 
         #endregion Ready
@@ -265,7 +273,15 @@ namespace InterCity
                 m_CurrentGame = game;
                 m_CurrentGame.Initialize(m_Player, m_MainForm);
                 m_MainForm.SetMode(m_CurrentGame.GameMode);
-                m_State = MainLvState.Playing;
+                if(gameMode == GameMode.Play)
+                {
+                    m_State = MainLvState.Playing;
+                    GameEntry.Sound.PlayMusic(m_Bgm);
+                }
+                else
+                {
+                    GameEntry.Sound.StopMusic();
+                }
             }
         }
 

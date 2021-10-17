@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace InterCity
 {
@@ -30,12 +23,18 @@ namespace InterCity
             get;
             private set;
         }
+        public static LevelComponent Level
+        {
+            get;
+            private set;
+        }
 
         private static void InitCustomComponents()
         {
             BuiltinData = UnityGameFramework.Runtime.GameEntry.GetComponent<BuiltinDataComponent>();
             OperationUI = UnityGameFramework.Runtime.GameEntry.GetComponent<OperationUIComponent>();
             Font = UnityGameFramework.Runtime.GameEntry.GetComponent<FontComponent>();
+            Level = UnityGameFramework.Runtime.GameEntry.GetComponent<LevelComponent>();
         }
     }
 }

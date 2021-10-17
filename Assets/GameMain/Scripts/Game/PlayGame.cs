@@ -64,9 +64,21 @@ namespace InterCity
             {
                 return;
             }
+            if (inputEvent.MoveDirection == 0)
+            {
+                m_MyPlayer.PlayFall();
+            }
             if (inputEvent.MoveDirection == 1)
             {
                 m_MyPlayer.PlayAttack();
+            }
+            if (inputEvent.MoveDirection == 3)
+            {
+                m_MyPlayer.PlayHold();
+            }
+            if (inputEvent.MoveDirection == 2)
+            {
+                m_MyPlayer.StopHold();
             }
         }
         #endregion

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using GameFramework.Event;
 using System.Collections;
+using UnityEngine.EventSystems;
 using UnityGameFramework.Runtime;
 
 namespace InterCity
 {
-    public class InputCatch : MonoBehaviour
+    public class UIInputCatch : MonoBehaviour
     {
         private float fingerActionSensitivity = Screen.width * 0.05f; //手指动作的敏感度，这里设定为 二十分之一的屏幕宽度.
         private float fingerBeginX;
@@ -36,7 +37,7 @@ namespace InterCity
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (ExitUI()&&Input.GetKeyDown(KeyCode.Mouse0))
             {
 
                 if (fingerTouchState == FINGER_STATE_NULL)
@@ -116,6 +117,23 @@ namespace InterCity
                 }
             }
 
+        }
+
+        /// <summary>
+        /// 是否离开UI
+        /// </summary>
+        /// <returns></returns>
+        private bool ExitUI()
+        {
+#if (UNITY_ANDROID || UNITY_IPHONE) && !UNITY_EDITOR
+        if (!EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            return true;
+#else
+            if (!EventSystem.current.IsPointerOverGameObject())
+                return true;
+#endif
+            else
+                return false;
         }
     }
 }

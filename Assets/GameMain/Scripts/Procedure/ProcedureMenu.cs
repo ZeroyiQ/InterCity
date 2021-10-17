@@ -58,7 +58,7 @@ namespace InterCity
 
             if (m_StartGame)
             {
-                procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Level"));
+                procedureOwner.SetData<VarInt32>(Constant.Key.SceneId, GameEntry.Config.GetInt("Scene.Level"));
                 ChangeState<ProcedureChangeScene>(procedureOwner);
             }
         }

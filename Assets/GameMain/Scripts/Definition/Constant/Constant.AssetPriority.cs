@@ -17,7 +17,8 @@ namespace InterCity
             public const int ConfigAsset = 100;
             public const int DataTableAsset = 100;
             public const int DictionaryAsset = 100;
-            public const int FontAsset = 50;
+            public const int LevelConfig = 100;
+            public const int FontAsset = 100;
             public const int MusicAsset = 20;
             public const int SceneAsset = 0;
             public const int SoundAsset = 30;

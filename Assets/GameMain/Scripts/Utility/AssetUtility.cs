@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 
 namespace InterCity
 {
@@ -59,6 +52,11 @@ namespace InterCity
         public static string GetUISoundAsset(string assetName)
         {
             return Utility.Text.Format("Assets/GameMain/UI/UISounds/{0}.wav", assetName);
+        }
+
+        public static string GetLevelInfoAsset()
+        {
+            return "Assets/GameMain/Configs/LevelConfig.json";
         }
     }
 }

@@ -216,7 +216,6 @@ GameObject:
   m_Component:
   - component: {fileID: 120832797}
   - component: {fileID: 120832796}
-  - component: {fileID: 120832795}
   m_Layer: 0
   m_Name: BackGroundCamera
   m_TagString: Untagged
@@ -224,14 +223,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &120832795
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 120832794}
-  m_Enabled: 1
 --- !u!20 &120832796
 Camera:
   m_ObjectHideFlags: 0
@@ -1806,8 +1797,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_Maskable: 1
+  m_RaycastTarget: 0
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1932,7 +1923,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1461320654}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.943039, y: -2.4200006, z: -20}
+  m_LocalPosition: {x: -1.9355621, y: -2.4200006, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 28620130}

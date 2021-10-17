@@ -19,6 +19,7 @@ namespace InterCity
         private bool m_ChangeToMenu = false;
         private bool m_IsChangeSceneComplete = false;
         private int m_BackgroundMusicId = 0;
+        private int m_SceneId =0;
         private string m_ChangeScene;
 
         public override bool UseNativeDialog
@@ -60,13 +61,13 @@ namespace InterCity
             // 还原游戏速度
             GameEntry.Base.ResetNormalGameSpeed();
 
-            int sceneId = procedureOwner.GetData<VarInt32>("NextSceneId");
-            m_ChangeToMenu = sceneId == MenuSceneId;
+            m_SceneId = procedureOwner.GetData<VarInt32>(Constant.Key.SceneId);
+            m_ChangeToMenu = m_SceneId == MenuSceneId;
             IDataTable<DRScene> dtScene = GameEntry.DataTable.GetDataTable<DRScene>();
-            DRScene drScene = dtScene.GetDataRow(sceneId);
+            DRScene drScene = dtScene.GetDataRow(m_SceneId);
             if (drScene == null)
             {
-                Log.Warning("Can not load scene '{0}' from data table.", sceneId.ToString());
+                Log.Warning("Can not load scene '{0}' from data table.", m_SceneId.ToString());
                 return;
             }
             m_ChangeScene = AssetUtility.GetSceneAsset(drScene.AssetName);
@@ -113,6 +114,8 @@ namespace InterCity
             }
             else
             {
+                procedureOwner.SetData<VarInt32>(Constant.Key.SceneBgm, m_BackgroundMusicId);
+                //procedureOwner.SetData<VarInt32>(Constant.Key.SceneId, m_SceneId);
                 ChangeState<ProcedureMain>(procedureOwner);
             }
         }
@@ -127,7 +130,7 @@ namespace InterCity
 
             Log.Info("Load scene '{0}' OK.", ne.SceneAssetName);
 
-            if (m_BackgroundMusicId > 0)
+            if (m_BackgroundMusicId > 0 && ne.Id == MenuSceneId)
             {
                 GameEntry.Sound.PlayMusic(m_BackgroundMusicId);
             }
